@@ -25,10 +25,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
         fetchQuotes();
+
+        //get1000QuotesFromVolley - Done
+        //insert1000Quotes - 500 were inserted
+        //get1000QuotesFromDatabase - 500
+        //Display in Adapter
+
+        //insert1000Quotes : Completable, Single<Int>, Single<Quote>, Single<List<Quote>>
+        //insert1000Quotes.subscribe {}
+        //insert1000Quotes.andThen
     }
     private void fetchQuotes() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, JSON_URL, null, response -> {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, JSON_URL, null,
+                response -> {
             ListOfQuotes listOfQuotes = new Gson().fromJson(response.toString(), ListOfQuotes.class);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

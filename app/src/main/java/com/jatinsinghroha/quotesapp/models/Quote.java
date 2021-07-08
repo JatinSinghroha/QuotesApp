@@ -7,12 +7,18 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "quotes_table")
 public class Quote implements Serializable
 {
 
     @SerializedName("tags")
     @Expose
     private List<String> tags = null;
+
+    @PrimaryKey
     @SerializedName("_id")
     @Expose
     private String id;
@@ -34,7 +40,18 @@ public class Quote implements Serializable
     @SerializedName("dateModified")
     @Expose
     private String dateModified;
-    private final static long serialVersionUID = 4327265317509668721L;
+    private long savedAt = 0;
+
+    public Quote(List<String> tags, String id, String author, String content, String authorSlug, Long length, String dateAdded, String dateModified) {
+        this.tags = tags;
+        this.id = id;
+        this.author = author;
+        this.content = content;
+        this.authorSlug = authorSlug;
+        this.length = length;
+        this.dateAdded = dateAdded;
+        this.dateModified = dateModified;
+    }
 
     public List<String> getTags() {
         return tags;
