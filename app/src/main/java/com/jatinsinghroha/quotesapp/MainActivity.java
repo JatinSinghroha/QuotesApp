@@ -17,13 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Adapter adapter;
-    QuotesDatabase quotesDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        quotesDatabase = QuotesDatabase.getInstance(this);
         recyclerView = findViewById(R.id.recyclerView);
         fetchQuotes();
 
@@ -43,17 +41,9 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, JSON_URL, null,
                 response -> {
             ListOfQuotes listOfQuotes = new Gson().fromJson(response.toString(), ListOfQuotes.class);
-//
-//                    Log.e("ABCD", response.toString());
-//                    Gson gson = new Gson();
-//
-//                    Type listType = new TypeToken<List<ProgQuote>>() {}.getType();
-//                    List<ProgQuote> listOfQuotes = gson.fromJson(response.toString(), listType);
-//                    quotesDatabase.progQuoteDao().insertListOfQuotes(listOfQuotes);
-//            quotesDatabase.quoteDao().insertListOfQuotes(listOfQuotes.getQuotes());
-                    quotesDatabase.quoteDao().insertListOfQuotes(listOfQuotes.getQuotes());
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            adapter = new Adapter(quotesDatabase.quoteDao().getQuotesFromLastOneWeek(System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)));
+            adapter = new Adapter(listOfQuotes.getQuotes());
 
             recyclerView.setAdapter(adapter);
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));

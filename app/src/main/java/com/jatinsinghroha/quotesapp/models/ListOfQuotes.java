@@ -28,7 +28,6 @@ public class ListOfQuotes implements Serializable
     @SerializedName("results")
     @Expose
     private List<Quote> quotes = null;
-    private final static long serialVersionUID = 6144626179982942424L;
 
     public Long getCount() {
         return count;

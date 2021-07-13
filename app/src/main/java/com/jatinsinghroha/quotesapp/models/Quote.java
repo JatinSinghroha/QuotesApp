@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,7 +13,6 @@ import androidx.room.PrimaryKey;
 public class Quote implements Serializable
 {
 
-    @NonNull
     @PrimaryKey
     @SerializedName("_id")
     @Expose
