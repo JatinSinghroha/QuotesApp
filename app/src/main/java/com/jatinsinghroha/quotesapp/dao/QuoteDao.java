@@ -2,16 +2,29 @@ package com.jatinsinghroha.quotesapp.dao;
 
 import com.jatinsinghroha.quotesapp.models.Quote;
 
+import java.util.List;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import androidx.room.Update;
 
 @Dao
-interface QuoteDao {
+public interface QuoteDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertOneQuote (Quote quote);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertListOfQuotes (List<Quote> quoteList);
+
+    @Query("SELECT * FROM quotes_table WHERE savedAt > :oneWeekAgoInMillis")
+    List<Quote> getQuotesFromLastOneWeek (long oneWeekAgoInMillis);
+
+    @Query("SELECT * FROM quotes_table WHERE id = :id")
+    Quote getQuoteByID (String id);
 
     @Delete
     void deleteOneQuote (Quote quote);

@@ -5,8 +5,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,10 +14,7 @@ import androidx.room.PrimaryKey;
 public class Quote implements Serializable
 {
 
-    @SerializedName("tags")
-    @Expose
-    private List<String> tags = null;
-
+    @NonNull
     @PrimaryKey
     @SerializedName("_id")
     @Expose
@@ -40,25 +37,14 @@ public class Quote implements Serializable
     @SerializedName("dateModified")
     @Expose
     private String dateModified;
-    private long savedAt = 0;
+    private long savedAt = System.currentTimeMillis();
 
-    public Quote(List<String> tags, String id, String author, String content, String authorSlug, Long length, String dateAdded, String dateModified) {
-        this.tags = tags;
-        this.id = id;
-        this.author = author;
-        this.content = content;
-        this.authorSlug = authorSlug;
-        this.length = length;
-        this.dateAdded = dateAdded;
-        this.dateModified = dateModified;
+    public long getSavedAt() {
+        return savedAt;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setSavedAt(long savedAt) {
+        this.savedAt = savedAt;
     }
 
     public String getId() {

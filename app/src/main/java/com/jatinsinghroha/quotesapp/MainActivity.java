@@ -5,10 +5,14 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.jatinsinghroha.quotesapp.models.ListOfQuotes;
+import com.google.gson.reflect.TypeToken;
+import com.jatinsinghroha.quotesapp.models.ProgQuote;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,13 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    private static String JSON_URL = "https://quotable.io/quotes?page=1";
     Adapter adapter;
+    QuotesDatabase quotesDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        quotesDatabase = QuotesDatabase.getInstance(this);
         recyclerView = findViewById(R.id.recyclerView);
         fetchQuotes();
 
@@ -35,14 +40,24 @@ public class MainActivity extends AppCompatActivity {
         //insert1000Quotes.subscribe {}
         //insert1000Quotes.andThen
     }
+
     private void fetchQuotes() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, JSON_URL, null,
+        String JSON_URL = "https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand";
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,
                 response -> {
-            ListOfQuotes listOfQuotes = new Gson().fromJson(response.toString(), ListOfQuotes.class);
+//            ListOfQuotes listOfQuotes = new Gson().fromJson(response.toString(), ListOfQuotes.class);
 
+                    Log.e("ABCD", response.toString());
+                    Gson gson = new Gson();
+
+                    Type listType = new TypeToken<List<ProgQuote>>() {}.getType();
+                    List<ProgQuote> listOfQuotes = gson.fromJson(response.toString(), listType);
+                    quotesDatabase.progQuoteDao().insertListOfQuotes(listOfQuotes);
+//            quotesDatabase.quoteDao().insertListOfQuotes(listOfQuotes.getQuotes());
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            adapter = new Adapter(listOfQuotes.getQuotes());
+            adapter = new Adapter(quotesDatabase.progQuoteDao().getQuotes());
+
             recyclerView.setAdapter(adapter);
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
 

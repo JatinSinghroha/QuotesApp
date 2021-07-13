@@ -5,7 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jatinsinghroha.quotesapp.models.Quote;
+import com.jatinsinghroha.quotesapp.models.ProgQuote;
+
+import org.jsoup.Jsoup;
 
 import java.util.List;
 
@@ -14,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
-    List<Quote> quotes;
+    List<ProgQuote> quotes;
 
-    public  Adapter(List<Quote> quotes) {
+    public  Adapter(List<ProgQuote> quotes) {
         this.quotes = quotes;
     }
 
@@ -29,9 +31,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        holder.quoteAuthor.setText(quotes.get(position).getAuthor());
-        holder.quoteContent.setText(quotes.get(position).getContent());
-
+        holder.quoteAuthor.setText(quotes.get(position).getTitle().getRendered());
+        holder.quoteContent.setText(Jsoup.parse(quotes.get(position).getContent().getRendered()).text());
     }
 
     @Override
@@ -41,7 +42,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
 
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public static class viewHolder extends RecyclerView.ViewHolder{
         TextView quoteAuthor, quoteContent;
 
         public viewHolder(@NonNull View itemView) {
