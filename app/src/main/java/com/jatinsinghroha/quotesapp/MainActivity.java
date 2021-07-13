@@ -5,14 +5,10 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.jatinsinghroha.quotesapp.models.ProgQuote;
-
-import java.lang.reflect.Type;
-import java.util.List;
+import com.jatinsinghroha.quotesapp.models.ListOfQuotes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,20 +39,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchQuotes() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String JSON_URL = "https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand";
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,
+        String JSON_URL = "https://quotable.io/quotes?page=1";
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, JSON_URL, null,
                 response -> {
-//            ListOfQuotes listOfQuotes = new Gson().fromJson(response.toString(), ListOfQuotes.class);
-
-                    Log.e("ABCD", response.toString());
-                    Gson gson = new Gson();
-
-                    Type listType = new TypeToken<List<ProgQuote>>() {}.getType();
-                    List<ProgQuote> listOfQuotes = gson.fromJson(response.toString(), listType);
-                    quotesDatabase.progQuoteDao().insertListOfQuotes(listOfQuotes);
+            ListOfQuotes listOfQuotes = new Gson().fromJson(response.toString(), ListOfQuotes.class);
+//
+//                    Log.e("ABCD", response.toString());
+//                    Gson gson = new Gson();
+//
+//                    Type listType = new TypeToken<List<ProgQuote>>() {}.getType();
+//                    List<ProgQuote> listOfQuotes = gson.fromJson(response.toString(), listType);
+//                    quotesDatabase.progQuoteDao().insertListOfQuotes(listOfQuotes);
 //            quotesDatabase.quoteDao().insertListOfQuotes(listOfQuotes.getQuotes());
+                    quotesDatabase.quoteDao().insertListOfQuotes(listOfQuotes.getQuotes());
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            adapter = new Adapter(quotesDatabase.progQuoteDao().getQuotes());
+            adapter = new Adapter(quotesDatabase.quoteDao().getQuotesFromLastOneWeek(System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)));
 
             recyclerView.setAdapter(adapter);
         }, error -> Log.d("tag", "onErrorResponse: " + error.getMessage()));
