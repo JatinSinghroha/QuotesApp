@@ -16,8 +16,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     List<Quote> quotes;
 
-    public  Adapter(List<Quote> quotes) {
+    ShareQuote shareQuote;
+
+    public  Adapter(List<Quote> quotes, ShareQuote shareQuote) {
         this.quotes = quotes;
+        this.shareQuote = shareQuote;
     }
 
     @NonNull
@@ -29,9 +32,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        holder.quoteAuthor.setText(quotes.get(position).getAuthor());
-        holder.quoteContent.setText(quotes.get(position).getContent());
+        Quote quote = quotes.get(position);
+        holder.quoteAuthor.setText(quote.getAuthor());
+        holder.quoteContent.setText(quote.getContent());
 
+        holder.itemView.setOnLongClickListener(v -> {
+            shareQuote.share(quote.getContent(), quote.getAuthor());
+            return true;
+        });
     }
 
     @Override
@@ -49,5 +57,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
             quoteAuthor = itemView.findViewById(R.id.quoteAuthor);
             quoteContent = itemView.findViewById(R.id.quoteContent);
         }
+    }
+
+    interface ShareQuote {
+        void share (String quote, String authorName);
     }
 }

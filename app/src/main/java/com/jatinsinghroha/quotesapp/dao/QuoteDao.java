@@ -26,6 +26,9 @@ public interface QuoteDao {
     @Query("SELECT * FROM quotes_table WHERE id = :id")
     Quote getQuoteByID (String id);
 
+    @Query("SELECT * FROM quotes_table order by savedAt desc")
+    List<Quote> getAllSavedQuotes();
+
     @Delete
     void deleteOneQuote (Quote quote);
 
