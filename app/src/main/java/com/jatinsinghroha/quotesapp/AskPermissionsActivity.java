@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.github.squti.androidwaverecorder.WaveRecorder;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,11 +18,17 @@ public class AskPermissionsActivity extends AppCompatActivity{
 
     private static final int REQUEST_AUDIO = 1, REQUEST_CAMERA = 2;
 
+    String filepath = "";
+    WaveRecorder waveRecorder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_permissions);
 
+
+        filepath = getExternalCacheDir().getAbsolutePath() + "/audioFile.wav";
+        waveRecorder = new WaveRecorder(filepath);
 
     }
 
@@ -38,8 +46,10 @@ public class AskPermissionsActivity extends AppCompatActivity{
         switch (view.getId()) {
             default:
             case R.id.micPermission: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                        == PackageManager.PERMISSION_GRANTED) {
+                waveRecorder.startRecording();
+
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
 
                     Toasty.success(this, "Already have Permission", Toasty.LENGTH_LONG, true).show();
 
@@ -52,6 +62,7 @@ public class AskPermissionsActivity extends AppCompatActivity{
             }
 
             case R.id.cameraPermission: {
+                waveRecorder.stopRecording();
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) {
 
