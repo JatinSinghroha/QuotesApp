@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuotesApp</string>
+    <string name="name">Jatin</string>
+
+    <string name="mic_permission_text">MIC PERMISSION ని అడగండి</string>
+    <string name="camera_permission_text">CAMERA PERMISSION ని అడగండి</string>
+
+    <string name="permission_given_text">అనుమతి ఇవ్వబడింది</string>
+
+</resources>

@@ -4,7 +4,11 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +42,9 @@ public class AskPermissionsActivity extends AppCompatActivity{
         switch (view.getId()) {
             default:
             case R.id.micPermission: {
+
+                ((Button) findViewById(view.getId())).setText(this.getResources().getQuantityString(R.plurals.winner_text, 1, 1));
+
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                         == PackageManager.PERMISSION_GRANTED) {
 
@@ -52,6 +59,8 @@ public class AskPermissionsActivity extends AppCompatActivity{
             }
 
             case R.id.cameraPermission: {
+                ((Button) findViewById(view.getId())).setText(this.getResources().getQuantityString(R.plurals.winner_text, 10, 10));
+
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) {
 
@@ -86,6 +95,7 @@ public class AskPermissionsActivity extends AppCompatActivity{
             case REQUEST_AUDIO: {
 
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    ((Button) findViewById(R.id.micPermission)).setText(this.getResources().getString(R.string.permission_given_text));
                     Toasty.success(this, "Thank you for giving MIC permission", Toasty.LENGTH_LONG, true).show();
                 } else {
                     Toasty.error(this, "Permission Denied. Can't use Mic feature", Toasty.LENGTH_LONG, true).show();
@@ -102,5 +112,34 @@ public class AskPermissionsActivity extends AppCompatActivity{
             }
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.home_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search_item:{
+                Toasty.success(this, "Thank you for Searching.", Toasty.LENGTH_LONG, true).show();
+                break;
+            }
+            case R.id.help_item:{
+                Toasty.error(this, "Thank you for ", Toasty.LENGTH_LONG, true).show();
+                break;
+            }
+            case R.id.settings_item:{
+                Toasty.info(this, "Thank you", Toasty.LENGTH_LONG, true).show();
+                break;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

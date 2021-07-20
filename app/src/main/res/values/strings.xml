@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">QuotesApp</string>
+    <string name="name">Jatin</string>
+
+    <string name="mic_permission_text">Ask MIC PERMISSION</string>
+    <string name="camera_permission_text">Ask CAMERA PERMISSION</string>
+
+    <string name="permission_given_text">Permission Given</string>
+
+    <string translatable="false" name="winner_text">
+        You have won by 1 point.
+        You have won by 2 points.
+    </string>
+
+    <plurals translatable="false" name="winner_text">
+        <item quantity="one">You have won by %d point.</item>
+        <item quantity="other">You have won by %d points.</item>
+    </plurals>
 </resources>

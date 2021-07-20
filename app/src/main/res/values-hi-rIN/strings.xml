@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name">Jatin</string>
+
+    <string name="mic_permission_text">माइक अनुमति पूछें</string>
+    <string name="camera_permission_text">कैमरा अनुमति पूछें</string>
+    <string name="permission_given_text">अनुमति दी गई</string>
+
+</resources>
