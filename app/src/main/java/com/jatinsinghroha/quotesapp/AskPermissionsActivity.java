@@ -1,9 +1,12 @@
 package com.jatinsinghroha.quotesapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -130,10 +133,55 @@ public class AskPermissionsActivity extends AppCompatActivity{
                 Toasty.success(this, "Thank you for Searching.", Toasty.LENGTH_LONG, true).show();
                 break;
             }
-            case R.id.help_item:{
-                Toasty.error(this, "Thank you for ", Toasty.LENGTH_LONG, true).show();
+
+            case R.id.open_website_item: {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://technologyend.com")));
                 break;
             }
+
+            case R.id.email_me_item:{
+                Intent emailMe = new Intent(Intent.ACTION_SENDTO);
+
+                emailMe.setData(Uri.parse("mailto:"));
+
+                emailMe.putExtra(Intent.EXTRA_EMAIL, "my895012@gmail.com");
+
+                emailMe.putExtra(Intent.EXTRA_SUBJECT, "QuotesApp v1.0 Contact");
+
+                emailMe.putExtra(Intent.EXTRA_TEXT, "App Name - QuotesApp\nContact From - Overflow Menu");
+
+                if (emailMe.resolveActivity(this.getPackageManager()) != null)
+                    startActivity(emailMe);
+
+                break;
+            }
+
+            case R.id.contact_item: {
+                Toasty.success(this, "Save My Contact", Toasty.LENGTH_SHORT, true).show();
+
+                Intent saveMyContact = new Intent(Intent.ACTION_INSERT);
+
+                saveMyContact.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.NAME, "Jatin Singhroha");
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.PHONE, "+91 8950121519");
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, "+91 7015285543");
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.EMAIL, "my895012@gmail.com");
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL, "jatin@technologyend.com");
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.COMPANY, "SURE Trust");
+
+                saveMyContact.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, "Android Developer");
+
+                startActivity(saveMyContact);
+
+                break;
+            }
+
             case R.id.settings_item:{
                 Toasty.info(this, "Thank you", Toasty.LENGTH_LONG, true).show();
                 break;

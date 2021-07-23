@@ -7,10 +7,33 @@
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/help_item"
-        android:title="Help"/>
+    <item android:id="@+id/contact_item"
+        android:title="Save My Contact"
+        android:icon="@drawable/ic_baseline_contacts_24"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/new_group_item"
+        android:title="New group"/>
+
+    <item android:id="@+id/new_broadcast_item"
+        android:title="New broadcast"/>
+
+    <item android:id="@+id/linked_device_item"
+        android:title="Linked Devices"/>
+
+    <item android:id="@+id/starred_messages_item"
+        android:title="Starred messages"/>
+
+    <item android:id="@+id/payments_item"
+        android:title="Payments"/>
 
     <item android:id="@+id/settings_item"
         android:title="Settings"/>
+
+    <item android:id="@+id/open_website_item"
+        android:title="Open My Blog"/>
+
+    <item android:id="@+id/email_me_item"
+        android:title="Email Me"/>
 
 </menu>
