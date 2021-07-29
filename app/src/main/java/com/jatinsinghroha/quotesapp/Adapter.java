@@ -12,6 +12,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+//Test Comment
+
 public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     List<Quote> quotes;
